@@ -1,0 +1,12 @@
+{
+    "name": "addressBook",
+    "app_id": "com.naduvai.addressbook",
+    "type": "ionic1",
+    "watchPatterns": [
+        "scss/**/*"
+    ],
+    "integrations": {
+        "gulp": {},
+        "cordova": {}
+    }
+}
