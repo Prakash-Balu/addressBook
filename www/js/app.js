@@ -30,7 +30,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
                 localJSONFound = false;
             }
 
-            $http.get('https://myapi-1a36c.firebaseapp.com/version.json')
+            $http.get('https://npaddress-fde01.firebaseapp.com/npversion.json')
                 .success(function(versionData) {
                     var splitData = versionData.versionUrl.split('?v=');
                     var version = splitData[1];

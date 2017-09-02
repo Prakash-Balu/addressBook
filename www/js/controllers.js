@@ -85,7 +85,6 @@ angular.module('starter.controllers', [])
     $scope.users = [];
     $scope.searchVal = '';
     $scope.filter = 'name';
-    console.log($scope.filter);
 
     $scope.init = function() {
         $scope.getUserList();
@@ -99,7 +98,6 @@ angular.module('starter.controllers', [])
     };
 
     $scope.changeFilter = function(filterValue) {
-        console.log(filterValue);
         $scope.filter = filterValue;
     };
 
@@ -108,8 +106,6 @@ angular.module('starter.controllers', [])
         if (searchVal != '') {
             var newArray = [];
             angular.forEach($scope.tmpUsers, function(value, key) {
-
-                console.log($scope.filter);
                 if ((value[$scope.filter].toLowerCase().indexOf(searchVal.toLowerCase())) != -1) {
                     newArray.push(value);
                 }
