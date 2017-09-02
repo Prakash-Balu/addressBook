@@ -130,8 +130,7 @@ angular.module('starter.controllers', [])
     $scope.userProfileData = $stateParams.data;
 })
 
-
-.controller('errorCtrl', function($scope) {
+.controller('error404Ctrl', function($scope) {
     $scope.exit = function() {
         ionic.Platform.exitApp();
     };
@@ -152,6 +151,11 @@ angular.module('starter.controllers', [])
             console.log('openNativeSettingsTest is not active!');
             $scope.exit();
         }
-    }
+    };
+})
 
+.controller('error500Ctrl', function($scope) {
+    $scope.exit = function() {
+        ionic.Platform.exitApp();
+    };
 });

@@ -32,24 +32,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
 
             $http.get('https://npaddress-fde01.firebaseapp.com/npversion.json')
                 .success(function(versionData) {
-                    var splitData = versionData.versionUrl.split('?v=');
-                    var version = splitData[1];
-                    if (localJSONFound) {
-                        if (addressData.version != version) {
-                            console.log('localdatachanged');
-                            writeJSONData(versionData, version);
+                    if (versionData.versionUrl != undefined) {
+                        var splitData = versionData.versionUrl.split('?v=');
+                        var version = splitData[1];
+                        if (localJSONFound) {
+                            if (addressData.version != version) {
+                                console.log('localdatachanged');
+                                writeJSONData(versionData, version);
+                            } else {
+                                console.log('localdataonly');
+                                $location.path('/home/users');
+                            }
                         } else {
-                            console.log('localdataonly');
-                            $location.path('/home/users');
+                            writeJSONData(versionData, version);
                         }
                     } else {
-                        writeJSONData(versionData, version);
+                        $location.path('/500');
                     }
-
                 })
                 .error(function(errorData) {
-                    alert('Check administrator');
-                    $location.path('/error');
+                    $location.path('/500');
                 });
         } else {
             if (validateService.validateLocalJsonData()) {
@@ -58,7 +60,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
                 $location.path('/home/users');
             } else {
                 localJSONFound = false;
-                $location.path('/error');
+                $location.path('/404');
             }
         }
 
@@ -94,11 +96,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
         controller: 'loginCtrl'
     })
 
-    .state('error', {
-        url: '/error',
+    .state('404', {
+        url: '/404',
         abstract: false,
         templateUrl: 'templates/404.html',
-        controller: 'errorCtrl'
+        controller: 'error404Ctrl'
+    })
+
+    .state('500', {
+        url: '/500',
+        abstract: false,
+        templateUrl: 'templates/500.html',
+        controller: 'error500Ctrl'
     })
 
     .state('home', {
