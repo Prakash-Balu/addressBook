@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.service('userService', function($http, validateService) {
+.service('userService', function(validateService) {
     this.getUsers = function() {
         return validateService.getLocalJsonData();
     };
@@ -63,5 +63,44 @@ angular.module('starter.services', [])
     this.setLocalJsonData = function(JSONData) {
         window.localStorage.setItem('addressData', angular.toJson(JSONData));
         return (this.validateLocalJsonData());
+    };
+
+    this.validateLocalLocationJsonData = function() {
+        if (window.localStorage['locationData'] == undefined) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    this.getLocalLocationJsonData = function() {
+        return window.localStorage['locationData'];
+    };
+
+    this.setLocalLocationJsonData = function(locationData) {
+        if (locationData != undefined) {
+            var locationJsonData = {
+                cities: {}
+            };
+            angular.forEach(locationData, function(value, key) {
+                angular.forEach(value, function(value1, key1) {
+                    if (!locationJsonData.cities.hasOwnProperty(value1.city))
+                        locationJsonData.cities[value1.city] = [];
+
+                    if (locationJsonData.cities[value1.city].indexOf(value1.area) == -1)
+                        locationJsonData.cities[value1.city].push(value1.area)
+                });
+
+            });
+
+            window.localStorage.setItem('locationData', angular.toJson(locationJsonData));
+        }
+        return (this.validateLocalLocationJsonData());
+    };
+})
+
+.service('locationService', function(validateService) {
+    this.getLocationList = function() {
+        return validateService.getLocalLocationJsonData();
     };
 });

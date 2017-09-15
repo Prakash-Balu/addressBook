@@ -82,31 +82,26 @@ angular.module('starter.controllers', [])
 })
 
 .controller('userCtrl', function($scope, $state, userService) {
-    $scope.users = [];
+    var users = [];
     $scope.searchVal = '';
-    $scope.filter = 'name';
 
-    $scope.init = function() {
-        $scope.getUserList();
+    function init() {
+        getUserList();
     };
 
-    $scope.getUserList = function() {
+    function getUserList() {
         var JSONData = angular.fromJson(userService.getUsers());
-        $scope.users = JSONData.data.Sheet1;
+        users = JSONData.data.Sheet1;
         searchUserData($scope.searchVal);
 
     };
 
-    $scope.changeFilter = function(filterValue) {
-        $scope.filter = filterValue;
-    };
-
     function searchUserData(searchVal) {
-        $scope.tmpUsers = angular.copy($scope.users);
+        $scope.tmpUsers = angular.copy(users);
         if (searchVal != '') {
             var newArray = [];
             angular.forEach($scope.tmpUsers, function(value, key) {
-                if ((value[$scope.filter].toLowerCase().indexOf(searchVal.toLowerCase())) != -1) {
+                if ((value.name.toLowerCase().indexOf(searchVal.toLowerCase())) != -1) {
                     newArray.push(value);
                 }
             });
@@ -123,7 +118,49 @@ angular.module('starter.controllers', [])
     };
 
     //Call function initialization
-    $scope.init();
+    init();
+})
+
+.controller('locationCtrl', function($scope, $state, locationService) {
+    $scope.users = [];
+    $scope.searchVal = '';
+
+    function init() {
+        getLocationList();
+    };
+
+    function getLocationList() {
+        var locationData = angular.fromJson(locationService.getLocationList());
+
+        console.log(locationData);
+        // $scope.users = JSONData.data.Sheet1;
+        //searchUserData($scope.searchVal);
+
+    };
+
+    function searchUserData(searchVal) {
+        $scope.tmpUsers = angular.copy($scope.users);
+        if (searchVal != '') {
+            var newArray = [];
+            angular.forEach($scope.tmpUsers, function(value, key) {
+                if ((value.name.toLowerCase().indexOf(searchVal.toLowerCase())) != -1) {
+                    newArray.push(value);
+                }
+            });
+            $scope.tmpUsers = newArray;
+        }
+    }
+
+    $scope.searchUsers = function(searchVal) {
+        searchUserData(searchVal);
+    };
+
+    $scope.getDetails = function(userData) {
+        $state.go('home.userprofile', { data: userData });
+    };
+
+    //Call function initialization
+    init();
 })
 
 .controller('userProfileCtrl', function($scope, $stateParams) {

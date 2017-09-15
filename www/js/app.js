@@ -66,6 +66,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
 
         function writeJSONData(versionData, version) {
             var validateFlag = false;
+            var validateFlag1 = false;
             $http.get(versionData.versionUrl)
                 .success(function(addressData) {
                     var JSONData = {
@@ -74,7 +75,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
                     }
 
                     validateFlag = validateService.setLocalJsonData(JSONData);
-                    if (validateFlag) {
+                    validateFlag1 = validateService.setLocalLocationJsonData(addressData);
+                    if (validateFlag & validateFlag1) {
                         $location.path('/home/users');
                     }
                 })
@@ -123,6 +125,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
             'menuContent': {
                 templateUrl: 'templates/users.html',
                 controller: 'userCtrl'
+            }
+        }
+    })
+
+    .state('home.location', {
+        url: '/location',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/location.html',
+                controller: 'locationCtrl'
             }
         }
     })
