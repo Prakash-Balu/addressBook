@@ -1,4 +1,4 @@
-<ion-view view-title="Location">
+<ion-view view-title="Area">
     <!-- <ion-nav-buttons side="secondary">
         <h4>Filter: </h4>
         <select class="form-control" id="sel1" ng-model="filter" ng-change="changeFilter(filter)">
@@ -17,8 +17,8 @@
                     </div> -->
                 </div>
             </ion-item>
-            <ion-item ng-repeat="(key, data) in locations" ng-click="getAreaList(data)">
-                <div class="comment" data-toggle="tooltip" title="{{key}}">{{key}}</div>
+            <ion-item ng-repeat="area in areaList" ng-click="getDetails(area)">
+                <div class="comment" data-toggle="tooltip" title="{{area}}">{{area}}</div>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -122,8 +122,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('locationCtrl', function($scope, $state, locationService) {
-    $scope.users = [];
-    $scope.searchVal = '';
+    $scope.locations = {};
 
     function init() {
         getLocationList();
@@ -133,38 +132,47 @@ angular.module('starter.controllers', [])
         var locationData = angular.fromJson(locationService.getLocationList());
 
         console.log(locationData);
-        // $scope.users = JSONData.data.Sheet1;
-        //searchUserData($scope.searchVal);
-
+        $scope.locations = locationData.cities;
     };
 
-    function searchUserData(searchVal) {
-        $scope.tmpUsers = angular.copy($scope.users);
-        if (searchVal != '') {
-            var newArray = [];
-            angular.forEach($scope.tmpUsers, function(value, key) {
-                if ((value.name.toLowerCase().indexOf(searchVal.toLowerCase())) != -1) {
-                    newArray.push(value);
-                }
-            });
-            $scope.tmpUsers = newArray;
-        }
-    }
-
-    $scope.searchUsers = function(searchVal) {
-        searchUserData(searchVal);
-    };
-
-    $scope.getDetails = function(userData) {
-        $state.go('home.userprofile', { data: userData });
+    $scope.getAreaList = function(city) {
+        $state.go('home.area', { data: city });
     };
 
     //Call function initialization
     init();
 })
 
+.controller('areaCtrl', function($scope, $stateParams) {
+    $scope.areaList = $stateParams.data;
+})
+
 .controller('userProfileCtrl', function($scope, $stateParams) {
     $scope.userProfileData = $stateParams.data;
+})
+
+.controller('userListByArea', function($scope, $stateParams, userService) {
+    $scope.area = $stateParams.data;
+
+    getUserList();
+
+    function getUserList() {
+        var JSONData = angular.fromJson(userService.getUsers());
+        users = JSONData.data.Sheet1;
+        userListByArea($scope.area);
+    };
+
+    function userListByArea(areaName) {
+        if (areaName != '') {
+            var newArray = [];
+            angular.forEach($scope.tmpUsers, function(value, key) {
+                if ((value.area.toLowerCase().indexOf(areaName.toLowerCase())) != -1) {
+                    newArray.push(value);
+                }
+            });
+            $scope.tmpUsers = newArray;
+        }
+    }
 })
 
 .controller('error404Ctrl', function($scope) {

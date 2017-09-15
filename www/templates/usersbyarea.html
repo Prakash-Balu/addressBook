@@ -1,4 +1,4 @@
-<ion-view view-title="Location">
+<ion-view view-title="Users">
     <!-- <ion-nav-buttons side="secondary">
         <h4>Filter: </h4>
         <select class="form-control" id="sel1" ng-model="filter" ng-change="changeFilter(filter)">
@@ -12,13 +12,15 @@
         <ion-list>
             <ion-item>
                 <div class="row">
-                    <!-- <div class="col col-md-12">
+                    <div class="col col-md-12">
                         <input type="text" placeholder="Search" ng-model="searchVal" ng-change="searchUsers(searchVal);">
-                    </div> -->
+                    </div>
                 </div>
             </ion-item>
-            <ion-item ng-repeat="(key, data) in locations" ng-click="getAreaList(data)">
-                <div class="comment" data-toggle="tooltip" title="{{key}}">{{key}}</div>
+            <ion-item ng-repeat="user in tmpUsers" ng-click="getDetails(user)">
+                <div class="comment username-title" data-toggle="tooltip" title="{{user.name}}">{{user.name}}</div>
+                <br/>
+                <div class="comment username-sonof" data-toggle="tooltip" title="{{user['s/o']}}" ng-if="user['s/o']">S/O: {{user['s/o']}}</div>
             </ion-item>
         </ion-list>
     </ion-content>

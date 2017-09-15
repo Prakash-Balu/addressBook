@@ -139,6 +139,17 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
         }
     })
 
+    .state('home.area', {
+        url: '/area',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/area.html',
+                controller: 'areaCtrl'
+            }
+        },
+        params: { pageTitle: 'Area List', data: {} }
+    })
+
     .state('home.userprofile', {
         url: '/userprofile',
         views: {
