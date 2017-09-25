@@ -126,7 +126,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'toaster', 'starter.controllers
                 templateUrl: 'templates/users.html',
                 controller: 'userCtrl'
             }
-        }
+        },
+        params: { pageTitle: 'User List', data: '' }
     })
 
     .state('home.location', {

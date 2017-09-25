@@ -83,7 +83,11 @@ angular.module('starter.controllers', [])
 
 .controller('userCtrl', function($scope, $state, userService) {
     var users = [];
+    var userList = [];
     $scope.searchVal = '';
+    var area = $state.params.data;
+
+    console.log(area);
 
     function init() {
         getUserList();
@@ -92,12 +96,11 @@ angular.module('starter.controllers', [])
     function getUserList() {
         var JSONData = angular.fromJson(userService.getUsers());
         users = JSONData.data.Sheet1;
-        searchUserData($scope.searchVal);
-
+        getuserListByArea();
     };
 
     function searchUserData(searchVal) {
-        $scope.tmpUsers = angular.copy(users);
+        $scope.tmpUsers = angular.copy(userList);
         if (searchVal != '') {
             var newArray = [];
             angular.forEach($scope.tmpUsers, function(value, key) {
@@ -115,6 +118,21 @@ angular.module('starter.controllers', [])
 
     $scope.getDetails = function(userData) {
         $state.go('home.userprofile', { data: userData });
+    };
+
+    function getuserListByArea() {
+        userList = angular.copy(users);
+        if (area != '') {
+            var newArray1 = [];
+            angular.forEach(userList, function(value1, key1) {
+                if ((value1.area.toLowerCase().indexOf(area.toLowerCase())) != -1) {
+                    newArray1.push(value1);
+                }
+            });
+            userList = newArray1;
+        }
+
+        searchUserData($scope.searchVal);
     };
 
     //Call function initialization
@@ -143,8 +161,13 @@ angular.module('starter.controllers', [])
     init();
 })
 
-.controller('areaCtrl', function($scope, $stateParams) {
+.controller('areaCtrl', function($scope, $stateParams, $state) {
     $scope.areaList = $stateParams.data;
+
+    $scope.getAreaUserList = function(area) {
+        console.log(area);
+        $state.go('home.users', { data: area });
+    };
 })
 
 .controller('userProfileCtrl', function($scope, $stateParams) {
@@ -173,6 +196,10 @@ angular.module('starter.controllers', [])
             $scope.tmpUsers = newArray;
         }
     }
+
+    $scope.getDetails = function(city) {
+        $state.go('home.area', { data: city });
+    };
 })
 
 .controller('error404Ctrl', function($scope) {
